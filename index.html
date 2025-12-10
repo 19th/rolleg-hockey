@@ -435,7 +435,6 @@
                                class="score-input" 
                                id="score1-${game.id}" 
                                min="0" 
-                               placeholder="0"
                                value="${game.score1 !== null ? game.score1 : ''}"
                                onchange="updateScore(${game.id}, 1, this.value)">
                         <span class="vs">VS</span>
@@ -443,7 +442,6 @@
                                class="score-input" 
                                id="score2-${game.id}" 
                                min="0" 
-                               placeholder="0"
                                value="${game.score2 !== null ? game.score2 : ''}"
                                onchange="updateScore(${game.id}, 2, this.value)">
                         <div class="team-name team-${game.team2}">${teamNames[game.team2]}</div>
