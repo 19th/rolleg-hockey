@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 Rolleg Hockey turnīrs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .games-section, .standings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .game {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .game.next-game {
+            background: linear-gradient(135deg, #fff3cd 0%, #fffaeb 100%);
+            border-left: 5px solid #ffc107;
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+            transform: scale(1.02);
+        }
+
+        .game.completed {
+            opacity: 0.7;
+        }
+
+        .game-header {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .game-teams {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .team-name {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            flex: 1;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .team-red { background-color: #dc3545; }
+        .team-blue { background-color: #007bff; }
+        .team-green { background-color: #28a745; }
+        .team-yellow { background-color: #ffc107; color: #333; }
+
+        .score-input {
+            width: 60px;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .vs {
+            font-weight: bold;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .team-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .team-badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .badge-red { background-color: #dc3545; }
+        .badge-blue { background-color: #007bff; }
+        .badge-green { background-color: #28a745; }
+        .badge-yellow { background-color: #ffc107; }
+
+        .stats {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .clear-button {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 10px 25px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .clear-button:hover {
+            background-color: #c82333;
+        }
+
+        .clear-button:active {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+
+            .games-section, .standings-section {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.3em;
+                margin-bottom: 15px;
+            }
+
+            .game {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            /* .game-teams {
+                flex-wrap: wrap;
+                gap: 8px;
+            } */
+
+            .team-name {
+                padding: 6px 10px;
+                font-size: 0.9em;
+                flex: 1 1 40%;
+                min-width: 100px;
+            }
+
+            .score-input {
+                width: 50px;
+                padding: 6px;
+                font-size: 1em;
+            }
+
+            .vs {
+                font-size: 1em;
+            }
+
+            .clear-button {
+                padding: 8px 20px;
+                font-size: 0.9em;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 8px 4px;
+                font-size: 0.85em;
+            }
+
+            .rank {
+                font-size: 1em;
+            }
+
+            .team-cell {
+                gap: 6px;
+            }
+
+            .team-badge {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
+
+            h2 {
+                font-size: 1.1em;
+            }
+
+            .games-section, .standings-section {
+                padding: 12px;
+            }
+
+            .game {
+                padding: 10px;
+            }
+
+            .team-name {
+                font-size: 0.8em;
+                padding: 5px 8px;
+                letter-spacing: 0.5px;
+            }
+
+            .score-input {
+                width: 45px;
+                padding: 5px;
+                font-size: 0.9em;
+            }
+
+            .vs {
+                font-size: 0.9em;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            th, td {
+                padding: 6px 2px;
+                font-size: 0.75em;
+            }
+
+            th {
+                font-size: 0.7em;
+            }
+
+            .team-cell {
+                gap: 4px;
+                font-size: 0.9em;
+            }
+
+            .clear-button {
+                padding: 6px 15px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><a style="text-decoration: none; color: white;" href="index.html">🏆 Rolleg Hockey turnīrs</a></h1>
+        
+        <div class="content-wrapper">
+            <div class="games-section">
+                <h2>Spēļu grafiks</h2>
+                <div id="games-container"></div>
+            </div>
+
+            <div class="standings-section">
+                <h2>Tabula</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vieta</th>
+                            <th>Komanda</th>
+                            <th class="stats">Spēles</th>
+                            <th class="stats">Uzvaras</th>
+                            <th class="stats">Zaudējumi</th>
+                            <th class="stats">Punkti</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standings-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button class="clear-button" onclick="clearData()">🗑️ Notīrīt datus</button>
+    </div>
+
+    <script>
+        const teams = ['red', 'blue', 'green', 'yellow'];
+        const teamNames = {
+            'red': '1',
+            'blue': '2',
+            'green': '3',
+            'yellow': '4'
+        };
+        
+        // Generate all games according to the specific schedule
+        function generateGames() {
+            return [
+                // 1. tūre
+                { id: 0, round: 1, team1: 'red', team2: 'blue', score1: null, score2: null },
+                { id: 1, round: 1, team1: 'green', team2: 'yellow', score1: null, score2: null },
+                // 2. tūre
+                { id: 2, round: 2, team1: 'red', team2: 'green', score1: null, score2: null },
+                { id: 3, round: 2, team1: 'blue', team2: 'yellow', score1: null, score2: null },
+                // 3. tūre
+                { id: 4, round: 3, team1: 'red', team2: 'yellow', score1: null, score2: null },
+                { id: 5, round: 3, team1: 'blue', team2: 'green', score1: null, score2: null },
+                // 4. tūre
+                { id: 6, round: 4, team1: 'red', team2: 'blue', score1: null, score2: null },
+                { id: 7, round: 4, team1: 'green', team2: 'yellow', score1: null, score2: null },
+                // 5. tūre
+                { id: 8, round: 5, team1: 'red', team2: 'green', score1: null, score2: null },
+                { id: 9, round: 5, team1: 'blue', team2: 'yellow', score1: null, score2: null },
+                // 6. tūre
+                { id: 10, round: 6, team1: 'red', team2: 'yellow', score1: null, score2: null },
+                { id: 11, round: 6, team1: 'blue', team2: 'green', score1: null, score2: null },
+                // 7. tūre
+                { id: 12, round: 7, team1: 'red', team2: 'blue', score1: null, score2: null },
+                { id: 13, round: 7, team1: 'green', team2: 'yellow', score1: null, score2: null },
+                // 8. tūre
+                { id: 14, round: 8, team1: 'red', team2: 'green', score1: null, score2: null },
+                { id: 15, round: 8, team1: 'blue', team2: 'yellow', score1: null, score2: null },
+                // 9. tūre
+                { id: 16, round: 9, team1: 'red', team2: 'yellow', score1: null, score2: null },
+                { id: 17, round: 9, team1: 'blue', team2: 'green', score1: null, score2: null }
+            ];
+        }
+
+        // Load games from localStorage or generate new ones
+        function loadGames() {
+            const saved = localStorage.getItem('rollegHockeyTournament');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return generateGames();
+        }
+
+        // Save games to localStorage
+        function saveGames() {
+            localStorage.setItem('rollegHockeyTournament', JSON.stringify(games));
+        }
+
+        let games = loadGames();
+
+        // Render games
+        function renderGames() {
+            const container = document.getElementById('games-container');
+            let currentRound = 0;
+            let html = '';
+            let nextGameFound = false;
+            
+            games.forEach(game => {
+                if (game.round !== currentRound) {
+                    currentRound = game.round;
+                    html += `<div style="font-weight: bold; color: #667eea; margin: 20px 0 10px 0; font-size: 1.2em; border-top: ${currentRound > 1 ? '2px solid #ddd' : 'none'}; padding-top: ${currentRound > 1 ? '15px' : '0'};">${currentRound}. tūre</div>`;
+                }
+                
+                // Determine if this is the next game to be played
+                const isCompleted = game.score1 !== null && game.score2 !== null;
+                const isNextGame = !nextGameFound && !isCompleted;
+                if (isNextGame) nextGameFound = true;
+                
+                const gameClass = isNextGame ? 'game next-game' : (isCompleted ? 'game completed' : 'game');
+                
+                html += `
+                <div class="${gameClass}">
+                    <div class="game-teams">
+                        <div class="team-name team-${game.team1}">${teamNames[game.team1]}</div>
+                        <input type="number" 
+                               class="score-input" 
+                               id="score1-${game.id}" 
+                               min="0" 
+                               value="${game.score1 !== null ? game.score1 : ''}"
+                               onchange="updateScore(${game.id}, 1, this.value)">
+                        <span class="vs">VS</span>
+                        <input type="number" 
+                               class="score-input" 
+                               id="score2-${game.id}" 
+                               min="0" 
+                               value="${game.score2 !== null ? game.score2 : ''}"
+                               onchange="updateScore(${game.id}, 2, this.value)">
+                        <div class="team-name team-${game.team2}">${teamNames[game.team2]}</div>
+                    </div>
+                </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Update score
+        function updateScore(gameId, teamNum, value) {
+            const score = value === '' ? null : parseInt(value);
+            if (teamNum === 1) {
+                games[gameId].score1 = score;
+            } else {
+                games[gameId].score2 = score;
+            }
+            saveGames();
+            renderGames();
+            updateStandings();
+        }
+
+        // Calculate standings
+        function updateStandings() {
+            const standings = teams.map(team => ({
+                team: team,
+                played: 0,
+                won: 0,
+                lost: 0,
+                points: 0
+            }));
+
+            games.forEach(game => {
+                if (game.score1 !== null && game.score2 !== null) {
+                    const team1Stats = standings.find(s => s.team === game.team1);
+                    const team2Stats = standings.find(s => s.team === game.team2);
+
+                    team1Stats.played++;
+                    team2Stats.played++;
+
+                    if (game.score1 > game.score2) {
+                        team1Stats.won++;
+                        team1Stats.points += 3;
+                        team2Stats.lost++;
+                    } else if (game.score2 > game.score1) {
+                        team2Stats.won++;
+                        team2Stats.points += 3;
+                        team1Stats.lost++;
+                    } else {
+                        // Draw
+                        team1Stats.points += 1;
+                        team2Stats.points += 1;
+                    }
+                }
+            });
+
+            // Sort by points (descending), then by wins
+            standings.sort((a, b) => {
+                if (b.points !== a.points) return b.points - a.points;
+                return b.won - a.won;
+            });
+
+            renderStandings(standings);
+        }
+
+        // Render standings
+        function renderStandings(standings) {
+            const tbody = document.getElementById('standings-body');
+            tbody.innerHTML = standings.map((team, index) => `
+                <tr>
+                    <td class="rank">${index + 1}</td>
+                    <td>
+                        <div class="team-cell">
+                            <div class="team-badge badge-${team.team}"></div>
+                            <span style="font-weight: 600;">${teamNames[team.team]}</span>
+                        </div>
+                    </td>
+                    <td class="stats">${team.played}</td>
+                    <td class="stats">${team.won}</td>
+                    <td class="stats">${team.lost}</td>
+                    <td class="stats"><strong>${team.points}</strong></td>
+                </tr>
+            `).join('');
+        }
+
+        // Clear data function
+        function clearData() {
+            if (confirm('Vai tiešām vēlaties dzēst visus rezultātus?')) {
+                localStorage.removeItem('rollegHockeyTournament');
+                games = generateGames();
+                renderGames();
+                updateStandings();
+            }
+        }
+
+        // Initialize
+        renderGames();
+        updateStandings();
+    </script>
+</body>
+</html>
