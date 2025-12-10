@@ -400,7 +400,7 @@
 
         // Load games from localStorage or generate new ones
         function loadGames() {
-            const saved = localStorage.getItem('tournamentGames');
+            const saved = localStorage.getItem('tournament');
             if (saved) {
                 return JSON.parse(saved);
             }
@@ -409,7 +409,7 @@
 
         // Save games to localStorage
         function saveGames() {
-            localStorage.setItem('tournamentGames', JSON.stringify(games));
+            localStorage.setItem('tournament', JSON.stringify(games));
         }
 
         let games = loadGames();
@@ -541,7 +541,7 @@
         // Clear data function
         function clearData() {
             if (confirm('Vai tiešām vēlaties dzēst visus rezultātus?')) {
-                localStorage.removeItem('tournamentGames');
+                localStorage.removeItem('tournament');
                 games = generateGames();
                 renderGames();
                 updateStandings();
