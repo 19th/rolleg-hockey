@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,52 +16,62 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .container {
             text-align: center;
-            max-width: 600px;
-            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         h1 {
             color: white;
             margin-bottom: 50px;
             font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .button-container {
             display: flex;
             flex-direction: row;
-            gap: 30px;
-            align-items: center;
+            gap: 20px;
+            align-items: stretch;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .tournament-button {
             display: block;
-            width: 100%;
-            max-width: 400px;
-            padding: 30px 40px;
+            width: 200px;
+            padding: 25px 30px;
             background: white;
             color: #667eea;
             border: none;
             border-radius: 15px;
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
 
         .tournament-button:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
         .tournament-button:active {
@@ -75,32 +86,91 @@
             font-weight: 400;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             h1 {
-                font-size: 1.8em;
+                font-size: 2em;
                 margin-bottom: 40px;
             }
 
+            .section {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+
             .tournament-button {
-                padding: 25px 30px;
-                font-size: 1.2em;
+                width: 160px;
+                padding: 20px 25px;
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 30px;
+            }
+
+            .section-title {
+                font-size: 1.3em;
+            }
+
+            .button-container {
+                gap: 15px;
+            }
+
+            .tournament-button {
+                width: 140px;
+                padding: 18px 20px;
+                font-size: 1em;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>🏆 Rolleg Hockey turnīrs</h1>
-        <div class="button-container">
-            <a href="4team9.html" class="tournament-button">
-                9 tūres
-                <span class="subtitle">Pilns turnīrs</span>
-            </a>
-            <a href="4team3.html" class="tournament-button">
-                2 tūres
-                <span class="subtitle">Īss turnīrs</span>
-            </a>
+
+        <!-- 2 komandas -->
+        <div class="section">
+            <h2 class="section-title">2 komandas</h2>
+            <div class="button-container">
+                <a href="2team10.html" class="tournament-button">
+                    10 spēles
+                    <span class="subtitle">Mainas puses</span>
+                </a> 
+            </div>
+        </div>
+
+        <!-- 3 komandas -->
+        <div class="section">
+            <h2 class="section-title">3 komandas</h2>
+            <div class="button-container"> <a href="3team6.html" class="tournament-button">
+                    6 tūres
+                    <span class="subtitle">Turnīrs</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 4 komandas -->
+        <div class="section">
+            <h2 class="section-title">4 komandas</h2>
+            <div class="button-container">
+                <a href="4team9.html" class="tournament-button">
+                    9 tūres
+                    <span class="subtitle">Liels turnīrs</span>
+                </a>
+                <a href="4team3.html" class="tournament-button">
+                    3 tūres
+                    <span class="subtitle">Īss turnīrs</span>
+                </a>
+            </div>
         </div>
     </div>
 </body>
+
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏆 Rolleg Hockey turnīrs</title>
+    <title>🏆 Rolleg Hockey turnīrs - 2 komandas</title>
     <style>
         * {
             margin: 0;
@@ -77,7 +77,7 @@
             font-weight: bold;
             color: #555;
             margin-bottom: 10px;
-            font-size: 1.1em;
+            font-size: 0.9em;
         }
 
         .game-teams {
@@ -111,8 +111,6 @@
 
         .team-red { background-color: #dc3545; }
         .team-blue { background-color: #007bff; }
-        .team-green { background-color: #28a745; }
-        .team-yellow { background-color: #ffc107; color: #333; }
 
         .score-input {
             width: 60px;
@@ -181,8 +179,6 @@
 
         .badge-red { background-color: #dc3545; }
         .badge-blue { background-color: #007bff; }
-        .badge-green { background-color: #28a745; }
-        .badge-yellow { background-color: #ffc107; }
 
         .stats {
             text-align: center;
@@ -282,13 +278,8 @@
                 margin-bottom: 12px;
             }
 
-            /* .game-teams {
-                flex-wrap: wrap;
-                gap: 8px;
-            } */
-
             .team-name {
-                padding: 12px 10px;
+                padding: 6px 10px;
                 font-size: 0.9em;
                 flex: 1 1 40%;
                 min-width: 100px;
@@ -453,45 +444,27 @@
     </script>
     
     <script>
-        const teams = ['red', 'blue', 'green', 'yellow'];
+        const teams = ['red', 'blue'];
         const teamNames = {
             'red': '1',
-            'blue': '2',
-            'green': '3',
-            'yellow': '4'
+            'blue': '2'
         };
         
-        // Generate all games according to the specific schedule
+        // Generate 10 games with teams flipping sides
         function generateGames() {
-            return [
-                // 1. tūre
-                { id: 0, round: 1, team1: 'red', team2: 'blue', score1: null, score2: null },
-                { id: 1, round: 1, team1: 'green', team2: 'yellow', score1: null, score2: null },
-                // 2. tūre
-                { id: 2, round: 2, team1: 'red', team2: 'green', score1: null, score2: null },
-                { id: 3, round: 2, team1: 'blue', team2: 'yellow', score1: null, score2: null },
-                // 3. tūre
-                { id: 4, round: 3, team1: 'red', team2: 'yellow', score1: null, score2: null },
-                { id: 5, round: 3, team1: 'blue', team2: 'green', score1: null, score2: null },
-                // 4. tūre
-                { id: 6, round: 4, team1: 'red', team2: 'blue', score1: null, score2: null },
-                { id: 7, round: 4, team1: 'green', team2: 'yellow', score1: null, score2: null },
-                // 5. tūre
-                { id: 8, round: 5, team1: 'red', team2: 'green', score1: null, score2: null },
-                { id: 9, round: 5, team1: 'blue', team2: 'yellow', score1: null, score2: null },
-                // 6. tūre
-                { id: 10, round: 6, team1: 'red', team2: 'yellow', score1: null, score2: null },
-                { id: 11, round: 6, team1: 'blue', team2: 'green', score1: null, score2: null },
-                // 7. tūre
-                { id: 12, round: 7, team1: 'red', team2: 'blue', score1: null, score2: null },
-                { id: 13, round: 7, team1: 'green', team2: 'yellow', score1: null, score2: null },
-                // 8. tūre
-                { id: 14, round: 8, team1: 'red', team2: 'green', score1: null, score2: null },
-                { id: 15, round: 8, team1: 'blue', team2: 'yellow', score1: null, score2: null },
-                // 9. tūre
-                { id: 16, round: 9, team1: 'red', team2: 'yellow', score1: null, score2: null },
-                { id: 17, round: 9, team1: 'blue', team2: 'green', score1: null, score2: null }
-            ];
+            const games = [];
+            for (let i = 0; i < 10; i++) {
+                // Teams flip sides each game
+                const isEven = i % 2 === 0;
+                games.push({
+                    id: i,
+                    team1: isEven ? 'red' : 'blue',
+                    team2: isEven ? 'blue' : 'red',
+                    score1: null,
+                    score2: null
+                });
+            }
+            return games;
         }
 
         let games = generateGames();
@@ -500,16 +473,10 @@
         // Render games
         function renderGames() {
             const container = document.getElementById('games-container');
-            let currentRound = 0;
             let html = '';
             let nextGameFound = false;
             
-            games.forEach(game => {
-                if (game.round !== currentRound) {
-                    currentRound = game.round;
-                    html += `<div style="font-weight: bold; color: #667eea; margin: 20px 0 10px 0; font-size: 1.2em; border-top: ${currentRound > 1 ? '2px solid #ddd' : 'none'}; padding-top: ${currentRound > 1 ? '15px' : '0'};">${currentRound}. tūre</div>`;
-                }
-                
+            games.forEach((game, index) => {
                 // Determine if this is the next game to be played
                 const isCompleted = game.score1 !== null && game.score2 !== null;
                 const isNextGame = !nextGameFound && !isCompleted;
@@ -519,20 +486,21 @@
                 
                 html += `
                 <div class="${gameClass}">
+                    <div class="game-header">Spēle ${index + 1}</div>
                     <div class="game-teams">
                         <div class="team-name team-${game.team1}" onclick="incrementScore(${game.id}, 1)" title="Klikšķini, lai pievienotu +1">${teamNames[game.team1]}</div>
                         <input type="number" 
                                class="score-input" 
                                id="score1-${game.id}" 
                                min="0" 
-                               value="${game.score1 !== null && game.score1 !== undefined ? game.score1 : ''}"
+                               value="${game.score1 !== null ? game.score1 : ''}"
                                onchange="updateScore(${game.id}, 1, this.value)">
                         <span class="vs">VS</span>
                         <input type="number" 
                                class="score-input" 
                                id="score2-${game.id}" 
                                min="0" 
-                               value="${game.score2 !== null && game.score2 !== undefined ? game.score2 : ''}"
+                               value="${game.score2 !== null ? game.score2 : ''}"
                                onchange="updateScore(${game.id}, 2, this.value)">
                         <div class="team-name team-${game.team2}" onclick="incrementScore(${game.id}, 2)" title="Klikšķini, lai pievienotu +1">${teamNames[game.team2]}</div>
                     </div>
@@ -557,10 +525,10 @@
             
             if (teamNum === 1) {
                 games[gameId].score1 = score;
-                updates[`tournament-team4-set9/games/${gameId}/score1`] = score;
+                updates[`tournament-2team-10games/games/${gameId}/score1`] = score;
             } else {
                 games[gameId].score2 = score;
-                updates[`tournament-team4-set9/games/${gameId}/score2`] = score;
+                updates[`tournament-2team-10games/games/${gameId}/score2`] = score;
             }
             
             // Update Firebase
@@ -634,13 +602,13 @@
         function clearData() {
             if (confirm('Vai tiešām vēlaties dzēst visus rezultātus?')) {
                 games = generateGames();
-                window.firebaseSet(window.firebaseRef(window.firebaseDB, 'tournament-team4-set9/games'), games);
+                window.firebaseSet(window.firebaseRef(window.firebaseDB, 'tournament-2team-10games/games'), games);
             }
         }
 
         // Listen to Firebase changes in real-time
         function initFirebaseListener() {
-            const gamesRef = window.firebaseRef(window.firebaseDB, 'tournament-team4-set9/games');
+            const gamesRef = window.firebaseRef(window.firebaseDB, 'tournament-2team-10games/games');
             
             window.firebaseOnValue(gamesRef, (snapshot) => {
                 const data = snapshot.val();

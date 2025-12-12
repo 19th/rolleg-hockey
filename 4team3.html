@@ -432,13 +432,13 @@
         import { getDatabase, ref, set, onValue, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         const firebaseConfig = {
-            apiKey: "AIzaSyCWjrYOIaKaG9F4gSo4sunv3yyTdRdNz90",
-            authDomain: "rolleg-hockey.firebaseapp.com",
-            databaseURL: "https://rolleg-hockey-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "rolleg-hockey",
-            storageBucket: "rolleg-hockey.firebasestorage.app",
-            messagingSenderId: "480940725222",
-            appId: "1:480940725222:web:76b88892a6b4f071677c27"
+        apiKey: "AIzaSyCWjrYOIaKaG9F4gSo4sunv3yyTdRdNz90",
+        authDomain: "rolleg-hockey.firebaseapp.com",
+        databaseURL: "https://rolleg-hockey-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "rolleg-hockey",
+        storageBucket: "rolleg-hockey.firebasestorage.app",
+        messagingSenderId: "480940725222",
+        appId: "1:480940725222:web:76b88892a6b4f071677c27"
         };
 
         // Initialize Firebase
@@ -464,33 +464,27 @@
         // Generate all games according to the specific schedule
         function generateGames() {
             return [
-                // 1. tūre
-                { id: 0, round: 1, team1: 'red', team2: 'blue', score1: null, score2: null },
-                { id: 1, round: 1, team1: 'green', team2: 'yellow', score1: null, score2: null },
-                // 2. tūre
-                { id: 2, round: 2, team1: 'red', team2: 'green', score1: null, score2: null },
-                { id: 3, round: 2, team1: 'blue', team2: 'yellow', score1: null, score2: null },
-                // 3. tūre
-                { id: 4, round: 3, team1: 'red', team2: 'yellow', score1: null, score2: null },
-                { id: 5, round: 3, team1: 'blue', team2: 'green', score1: null, score2: null },
-                // 4. tūre
-                { id: 6, round: 4, team1: 'red', team2: 'blue', score1: null, score2: null },
-                { id: 7, round: 4, team1: 'green', team2: 'yellow', score1: null, score2: null },
-                // 5. tūre
-                { id: 8, round: 5, team1: 'red', team2: 'green', score1: null, score2: null },
-                { id: 9, round: 5, team1: 'blue', team2: 'yellow', score1: null, score2: null },
-                // 6. tūre
-                { id: 10, round: 6, team1: 'red', team2: 'yellow', score1: null, score2: null },
-                { id: 11, round: 6, team1: 'blue', team2: 'green', score1: null, score2: null },
-                // 7. tūre
-                { id: 12, round: 7, team1: 'red', team2: 'blue', score1: null, score2: null },
-                { id: 13, round: 7, team1: 'green', team2: 'yellow', score1: null, score2: null },
-                // 8. tūre
-                { id: 14, round: 8, team1: 'red', team2: 'green', score1: null, score2: null },
-                { id: 15, round: 8, team1: 'blue', team2: 'yellow', score1: null, score2: null },
-                // 9. tūre
-                { id: 16, round: 9, team1: 'red', team2: 'yellow', score1: null, score2: null },
-                { id: 17, round: 9, team1: 'blue', team2: 'green', score1: null, score2: null }
+                // tūrs 1
+                { id: 0, team1: 'red',  team2: 'blue', score1: null, score2: null },
+                { id: 1, team1: 'red',  team2: 'green', score1: null, score2: null },
+                { id: 2, team1: 'blue', team2: 'yellow', score1: null, score2: null },
+                { id: 3, team1: 'blue', team2: 'green',  score1: null, score2: null },
+                { id: 4, team1: 'red',  team2: 'yellow', score1: null, score2: null },
+                { id: 5, team1: 'green', team2: 'yellow', score1: null, score2: null },
+                // tūrs 2
+                { id: 6, team1: 'red',  team2: 'blue', score1: null, score2: null },
+                { id: 7, team1: 'red',  team2: 'green', score1: null, score2: null },
+                { id: 8, team1: 'blue', team2: 'yellow', score1: null, score2: null },
+                { id: 9, team1: 'blue', team2: 'green',  score1: null, score2: null },
+                { id: 10, team1: 'red',  team2: 'yellow', score1: null, score2: null },
+                { id: 11, team1: 'green', team2: 'yellow', score1: null, score2: null },
+                // tūre 3
+                { id: 6, team1: 'red',  team2: 'blue', score1: null, score2: null },
+                { id: 7, team1: 'red',  team2: 'green', score1: null, score2: null },
+                { id: 8, team1: 'blue', team2: 'yellow', score1: null, score2: null },
+                { id: 9, team1: 'blue', team2: 'green',  score1: null, score2: null },
+                { id: 10, team1: 'red',  team2: 'yellow', score1: null, score2: null },
+                { id: 11, team1: 'green', team2: 'yellow', score1: null, score2: null },
             ];
         }
 
@@ -505,9 +499,12 @@
             let nextGameFound = false;
             
             games.forEach(game => {
-                if (game.round !== currentRound) {
-                    currentRound = game.round;
-                    html += `<div style="font-weight: bold; color: #667eea; margin: 20px 0 10px 0; font-size: 1.2em; border-top: ${currentRound > 1 ? '2px solid #ddd' : 'none'}; padding-top: ${currentRound > 1 ? '15px' : '0'};">${currentRound}. tūre</div>`;
+                if (currentRound === 0) {
+                    html += `<div style="font-weight: bold; color: #667eea; margin: 20px 0 10px 0; font-size: 1.2em; border-top: '2px solid #ddd'; padding-top: '0';">1. tūre</div>`;
+                } else if (currentRound === 6) {
+                    html += `<div style="font-weight: bold; color: #667eea; margin: 20px 0 10px 0; font-size: 1.2em; border-top: '2px solid #ddd'; padding-top: '0';">2. tūre</div>`;
+                } else if (currentRound === 12) {
+                    html += `<div style="font-weight: bold; color: #667eea; margin: 20px 0 10px 0; font-size: 1.2em; border-top: '2px solid #ddd'; padding-top: '0';">3. tūre</div>`;
                 }
                 
                 // Determine if this is the next game to be played
@@ -525,19 +522,20 @@
                                class="score-input" 
                                id="score1-${game.id}" 
                                min="0" 
-                               value="${game.score1 !== null && game.score1 !== undefined ? game.score1 : ''}"
+                               value="${game.score1 !== null ? game.score1 : ''}"
                                onchange="updateScore(${game.id}, 1, this.value)">
                         <span class="vs">VS</span>
                         <input type="number" 
                                class="score-input" 
                                id="score2-${game.id}" 
                                min="0" 
-                               value="${game.score2 !== null && game.score2 !== undefined ? game.score2 : ''}"
+                               value="${game.score2 !== null ? game.score2 : ''}"
                                onchange="updateScore(${game.id}, 2, this.value)">
                         <div class="team-name team-${game.team2}" onclick="incrementScore(${game.id}, 2)" title="Klikšķini, lai pievienotu +1">${teamNames[game.team2]}</div>
                     </div>
                 </div>
                 `;
+                currentRound += 1;
             });
             
             container.innerHTML = html;
@@ -557,10 +555,10 @@
             
             if (teamNum === 1) {
                 games[gameId].score1 = score;
-                updates[`tournament-team4-set9/games/${gameId}/score1`] = score;
+                updates[`tournament-team4-set2/games/${gameId}/score1`] = score;
             } else {
                 games[gameId].score2 = score;
-                updates[`tournament-team4-set9/games/${gameId}/score2`] = score;
+                updates[`tournament-team4-set2/games/${gameId}/score2`] = score;
             }
             
             // Update Firebase
@@ -634,13 +632,13 @@
         function clearData() {
             if (confirm('Vai tiešām vēlaties dzēst visus rezultātus?')) {
                 games = generateGames();
-                window.firebaseSet(window.firebaseRef(window.firebaseDB, 'tournament-team4-set9/games'), games);
+                window.firebaseSet(window.firebaseRef(window.firebaseDB, 'tournament-team4-set2/games'), games);
             }
         }
 
         // Listen to Firebase changes in real-time
         function initFirebaseListener() {
-            const gamesRef = window.firebaseRef(window.firebaseDB, 'tournament-team4-set9/games');
+            const gamesRef = window.firebaseRef(window.firebaseDB, 'tournament-team4-set2/games');
             
             window.firebaseOnValue(gamesRef, (snapshot) => {
                 const data = snapshot.val();
