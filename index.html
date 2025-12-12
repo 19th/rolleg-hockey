@@ -33,7 +33,7 @@
         }
 
         .section {
-            margin-bottom: 60px;
+            margin-bottom: 32px;
         }
 
         .section-title {
@@ -45,17 +45,16 @@
         }
 
         .button-container {
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            align-items: stretch;
-            justify-content: center;
-            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .tournament-button {
             display: block;
-            width: 200px;
+            width: 100%;
             padding: 25px 30px;
             background: white;
             color: #667eea;
@@ -101,8 +100,11 @@
                 margin-bottom: 20px;
             }
 
+            .button-container {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+
             .tournament-button {
-                width: 160px;
                 padding: 20px 25px;
                 font-size: 1.1em;
             }
@@ -119,11 +121,11 @@
             }
 
             .button-container {
+                grid-template-columns: 1fr;
                 gap: 15px;
             }
 
             .tournament-button {
-                width: 140px;
                 padding: 18px 20px;
                 font-size: 1em;
             }
@@ -137,36 +139,28 @@
 
         <!-- 2 komandas -->
         <div class="section">
-            <h2 class="section-title">2 komandas</h2>
             <div class="button-container">
                 <a href="2team10.html" class="tournament-button">
-                    10 spēles
-                    <span class="subtitle">Mainas puses</span>
+                    2 komandas
+                    <span class="subtitle">10 spēles</span>
                 </a> 
-            </div>
-        </div>
-
-        <!-- 3 komandas -->
-        <div class="section">
-            <h2 class="section-title">3 komandas</h2>
-            <div class="button-container"> <a href="3team6.html" class="tournament-button">
-                    6 tūres
-                    <span class="subtitle">Turnīrs</span>
+                <a href="3team6.html" class="tournament-button">
+                    3 komandas
+                    <span class="subtitle">6 tūres</span>
                 </a>
             </div>
         </div>
 
         <!-- 4 komandas -->
         <div class="section">
-            <h2 class="section-title">4 komandas</h2>
             <div class="button-container">
                 <a href="4team9.html" class="tournament-button">
-                    9 tūres
-                    <span class="subtitle">Liels turnīrs</span>
+                    4 komandas
+                    <span class="subtitle">9 tūres</span>
                 </a>
                 <a href="4team3.html" class="tournament-button">
-                    3 tūres
-                    <span class="subtitle">Īss turnīrs</span>
+                    4 komandas
+                    <span class="subtitle">3 tūres</span>
                 </a>
             </div>
         </div>
